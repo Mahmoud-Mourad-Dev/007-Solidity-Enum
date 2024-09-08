@@ -224,7 +224,48 @@ Status _status;
 }
 }
 ```
+Enum Declaration Outside a Contract or Library
+When you declare an enum outside a contract or library, it becomes a globally accessible type for any contract or library within that file. Here's an example:
+```solidity
 
+
+//SPDX-License-Identifier:MIT
+pragma solidity ^0.8.24;
+// Declare the enum at the file level
+enum Status { Pending, Shipped, Delivered, Cancelled }
+
+contract Order {
+    Status public orderStatus;
+
+    constructor() {
+        orderStatus = Status.Pending; // Default status is "Pending"
+    }
+
+    function shipOrder() public {
+        orderStatus = Status.Shipped; // Change status to "Shipped"
+    }
+
+    function cancelOrder() public {
+        orderStatus = Status.Cancelled; // Change status to "Cancelled"
+    }
+
+    function getStatus() public view returns (Status) {
+        return orderStatus;
+    }
+}
+
+contract Delivery {
+    Status public deliveryStatus;
+
+    constructor() {
+        deliveryStatus = Status.Delivered; // Default status is "Delivered"
+    }
+
+    function updateStatus(Status _status) public {
+        deliveryStatus = _status;
+    }
+}
+```
 
 
 
